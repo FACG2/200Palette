@@ -1,7 +1,7 @@
 var test = require('tape');
 var backendScript = require('./backendScript.js');
 
-test('Testing Tape is working', function(t) {
+test('Testing Suggestion Function is working', function(t) {
 var sugName='re';
   var actual = backendScript.suggest(sugName);
   var expected = ['red', 'rebeccapurple'];
@@ -9,7 +9,7 @@ var sugName='re';
   t.end();
 });
 
-test('Testing Tape is working', function(t) {
+test('Testing searchResult Function is working', function(t) {
 var color='red';
   var actual = backendScript.searchResult(color);
   var expected = [255,0,0];

@@ -19,7 +19,14 @@
       }
     });
   });
+  /*Reset SVG colors to gray*/
+  setTimeout(()=>{
+    const allCircles = Array.from(document.querySelectorAll('circle'));
+    allCircles.forEach((oneCircle)=>{
+        oneCircle.setAttribute("fill", "gray");
 
+    });
+  },0);
   /*Painting the picture*/
   setTimeout(()=>{
     const allCircles = Array.from(document.querySelectorAll('circle'));
@@ -42,6 +49,7 @@
       event.preventDefault();
       const myColor = event.target.firstElementChild.value;
       if (sugestions.indexOf(myColor) !=-1) { // verify that we have this color
+        note.innerHTML="<h4>Pick color from the palette and then start painting.</h4>";
         mySearch(myColor , (colorValue)=>{
           document.getElementById('palettesLis').innerHTML=createpaletts(colorValue);
             var allLis = Array.from(document.querySelectorAll('#palettesLis li'));
@@ -50,8 +58,9 @@
                 const selectedDiv = document.getElementsByClassName('selected')[0];
                 if (selectedDiv != undefined) {
                   selectedDiv.classList.remove('selected');
-                  onePalette.classList.add('selected');
+
                 }
+                onePalette.classList.add('selected');
                 pickedColor =  onePalette.style.backgroundColor;
               });
               /*Allowing coloring the background*/
@@ -63,7 +72,7 @@
         });
       }else if(sugestions.length){
         note.innerHTML = '<h4 class="error">Sorry :( We dont provide this color : '+ myColor + '</h4>'+
-                        '<h4>do you mean '+ sugestions[0] +' </h4>'
+                        '<h4>do you mean <span style="color:'+sugestions[0]+'">'+ sugestions[0] +' </span></h4>'
       }else {
         note.innerHTML = '<h4 class="error">Sorry :( We dont provide this color : '+ myColor + '</h4>';
       }
@@ -130,4 +139,7 @@ function rgbToHsl(r, g, b){
         h /= 6;
     }
     return [Math.floor(h * 360), Math.floor(s * 100), Math.floor(l * 100)];
+}
+module.exports={
+  rgbToHsl:rgbToHsl
 }

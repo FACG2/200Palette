@@ -58,6 +58,7 @@ ul li {
     background: #eee;
     font-size: 25px;
     transition: 0.2s;
+    margin: 0 auto;
 }
 
 #myPic {
@@ -68,7 +69,9 @@ ul li {
     flex-direction: column;
     justify-content: center;
 }
-
+circle{
+  cursor: pointer;
+}
 svg {
     background: #ecf0f1;
     border-radius: 1%;
@@ -77,6 +80,7 @@ svg {
     margin: 0 auto;
     display: block;
     margin-top: 1.5%;
+
 }
 .selected{
   border:2px dotted gray;
@@ -133,9 +137,23 @@ footer {
     text-align: center;
 }
 
-@media (max-width:600px) {
+@media (max-width:780px) {
     svg {
         height: auto;
         width: 80%;
+    }
+    .paletteDiv{
+      width: 100%;
+    }
+    .allPage{
+      flex-direction:column-reverse;
+      height: auto;
+    }
+    ul{
+      display: flex;
+        padding-right: 20px;
+    }
+    #myPic {
+      width: 100%;
     }
 }
