@@ -1,46 +1,36 @@
-
 const fs = require('fs');
 const backendScript = require('./backendScript.js');
 
-function homeHandler (req, res) {
-  fs.readFile(__dirname + '/../public/index.html', (err, data) => {
-    if (err) {
-      res.writeHead(500, { 'Content-Type': 'text/html' });
-      res.end('<h1>Internal Server Error</h1>');
-    } else {
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      res.end(data);
-    }
-  });
-}
-
-function sugestHandler(req,res) {
+function sugestHandler(req, res) {
   var allTheData = '';
-  req.on('data', function (chunkOfData) {
+  req.on('data', function(chunkOfData) {
     allTheData += chunkOfData;
   });
-  req.on('end', function () {
-    var resu= backendScript.suggest(allTheData);
+  req.on('end', function() {
+    var resu = backendScript.suggest(allTheData);
     res.end(JSON.stringify(resu));
   });
 }
 
-function searchHandler(req,res) {
+function searchHandler(req, res) {
   var allTheData = '';
-  req.on('data', function (chunkOfData) {
+  req.on('data', function(chunkOfData) {
 
-      allTheData += chunkOfData;
+    allTheData += chunkOfData;
   });
 
-  req.on('end', function () {
-    var resu= backendScript.searchResult(allTheData);
-  res.end(JSON.stringify(resu));
+  req.on('end', function() {
+    var resu = backendScript.searchResult(allTheData);
+    res.end(JSON.stringify(resu));
   });
 
 }
 
-function publicHandler (req, res) {
+function publicHandler(req, res) {
   var url = req.url;
+  if (url == '/') {
+    url = '/index.html';
+  }
   var parts = url.split('.');
   var fileExtention = parts[parts.length - 1];
 
@@ -49,28 +39,32 @@ function publicHandler (req, res) {
     html: 'text/html',
     js: 'application/javascript'
   };
-console.log(url);
+  console.log(url);
   fs.readFile(__dirname + '/../public' + url, (err, data) => {
     if (err) {
-      res.writeHead(500, { 'Content-Type': 'text/html' });
+      res.writeHead(500, {
+        'Content-Type': 'text/html'
+      });
       res.end('<h1>Internal Server Error</h1>');
     } else {
-      res.writeHead(200, { 'Content-Type': contentTypes[fileExtention] });
+      res.writeHead(200, {
+        'Content-Type': contentTypes[fileExtention]
+      });
       res.end(data);
     }
   });
 }
 
-
-function noPageHandler(req,res) {
-  res.writeHead(404, { 'Content-Type': 'text/html' });
+function noPageHandler(req, res) {
+  res.writeHead(404, {
+    'Content-Type': 'text/html'
+  });
   res.end('<h1>Not found</h1>');
 }
 
-module.exports={
-  homeHandler:homeHandler,
-  publicHandler:publicHandler,
-  sugestHandler:sugestHandler,
-  searchHandler:searchHandler,
-  noPageHandler:noPageHandler
+module.exports = {
+  publicHandler,
+  sugestHandler,
+  searchHandler,
+  noPageHandler
 }
